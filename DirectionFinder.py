@@ -23,7 +23,8 @@ class DirectionFinder:
         maxDirection = { 0, 0 }
         
         for element in sensorData:
-            if element[amp] > maxAmp:
-                maxDirection = element[location]
+            if element['amp'] > maxAmp:
+                maxAmp = element['amp']
+                maxDirection = element['location']
 
         return maxDirection
