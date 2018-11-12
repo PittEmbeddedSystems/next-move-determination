@@ -24,6 +24,10 @@ class DirectionFinder:
         """
         maxAmp = 0
         maxDirection = { 0, 0 }
+
+        # Special Case: If all elements are the same, don't move anywhere
+        if all(element['amp'] == sensorData[0]['amp'] for element in sensorData):
+            return (0, 0)
         
         for element in sensorData:
             # If any of the amplitudes aren't valid, then return an invalid result
