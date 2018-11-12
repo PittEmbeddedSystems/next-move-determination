@@ -34,7 +34,7 @@ class DirectionFinderTests(unittest.TestCase):
         testDF = DirectionFinder
         direction = testDF.FindDirection(sensorData)
 
-        self.assertEqual(direction, (0, 0))
+        self.assertEqual(direction, (1, 1))
 
 
     def testSingleMax(self):
@@ -65,7 +65,7 @@ class DirectionFinderTests(unittest.TestCase):
         testDF = DirectionFinder
         direction = testDF.FindDirection(sensorData)
 
-        self.assertEqual(direction, [])
+        self.assertEqual(direction, (0, 0))
 
     def testOneInvalidAmplitude(self):
         sensorData = []
@@ -80,7 +80,7 @@ class DirectionFinderTests(unittest.TestCase):
         testDF = DirectionFinder
         direction = testDF.FindDirection(sensorData)
 
-        self.assertEqual(direction, (0, 0))
+        self.assertEqual(direction, ())
 
 
     def testFewerSensors(self):
@@ -96,7 +96,6 @@ class DirectionFinderTests(unittest.TestCase):
         direction = testDF.FindDirection(sensorData)
 
         self.assertEqual(direction, (0, 0))
-        assert False
 
 if __name__ == "__main__":
     unittest.main()
