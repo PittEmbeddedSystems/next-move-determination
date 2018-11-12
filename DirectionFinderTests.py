@@ -20,7 +20,6 @@ class DirectionFinderTests(unittest.TestCase):
         direction = testDF.FindDirection(sensorData)
         
         self.assertEqual(direction, (0,0))
-        #self.assertEqual(direction[1], 0)
 
     def testTwoIndependentMaxes(self):
         sensorData = []
