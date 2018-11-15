@@ -31,10 +31,13 @@ class LightSensor(object):
         """
         Query the current location of the LightSensor
         """
-        return (self.location.x, self.location.y, self.location.z)
+        return self.location
 
     def output_from_sources(self, incident_light):
         """
         Determine an output based on the specified input
         """
-        return incident_light * (self.output_range) / (self.input_range)
+        return (incident_light - self.input_range[0]) \
+          * (self.output_range[1] - self.output_range[0]) \
+          / (self.input_range[1] - self.input_range[0]) \
+          + self.output_range[0]
