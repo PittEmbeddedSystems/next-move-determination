@@ -136,6 +136,20 @@ class SensorMountTests(unittest.TestCase):
         attached_sensor = LightSensor(sensor_location, (), ())
 
         mount_location = (2, 5, 7)
+
+        """
+        We calculate the expected result manually as
+        expected X = (100 * cos(32) + y * sin(32)) + 2
+                                rotation             translation
+        expected Y = (-100 * sin(32) + y * cos(32)) + 5
+                                rotation              translation
+        expected Z = z + 7
+
+        Where all trig functions are using degrees,
+        x = 100
+        y = 0
+        z = 0
+        """
         rotated_location = (86.804809616, -47.991926423, 7)
         mount_under_test.add_new_sensor(attached_sensor)
         mount_under_test.move_to_position(mount_location, 32)
@@ -165,6 +179,12 @@ class SensorMountTests(unittest.TestCase):
 
         mount_location = (2, 5, 7)
         rotated_location = []
+        """
+        Since we are rotating by 45 degress, each sensor should be rotated to the
+        position of the previous one before being translated.
+        For example: the second element will end up being rotated to (100, 0, 0)
+        then translated by the mount_location (2, 5, 7) to become (102, 5, 7)
+        """
         rotated_location.append((72.710678119, -65.710678119, 7))
         rotated_location.append((102, 5, 7))
         rotated_location.append((72.710678119, 75.710678119, 7))

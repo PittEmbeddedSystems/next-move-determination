@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 A container for LightSensors which provides a fixed physical frame for the
-LightSensors on be attached to so that moving the SensorMount affects all
+LightSensors attached to it so that moving the SensorMount affects all
 attached LightSensors appropriately.
 
 SensorMounts allow translations and rotations when specifying a move. Thus
@@ -50,6 +50,7 @@ class SensorMount(object):
             rotated_y = - relative_x * math.sin(rotation_rads) \
                 + relative_y * math.cos(rotation_rads)
 
+            # ASSUMPITION: Our mount operates on a flat plane
             rotated_z = relative_z
 
             # Translate back to absolute coordinates
