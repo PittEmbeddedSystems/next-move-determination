@@ -150,15 +150,15 @@ class SensorMountTests(unittest.TestCase):
         y = 0
         z = 0
         """
-        rotated_location = (86.804809616, -47.991926423, 7)
+        resultant_location = (86.804809616, -47.991926423, 7)
         mount_under_test.add_new_sensor(attached_sensor)
         mount_under_test.move_to_position(mount_location, 32)
         self.assertAlmostEqual(mount_under_test.get_sensor(0).current_position()[0],\
-            rotated_location[0], 6)
+            resultant_location[0], 6)
         self.assertAlmostEqual(mount_under_test.get_sensor(0).current_position()[1],\
-            rotated_location[1], 6)
+            resultant_location[1], 6)
         self.assertAlmostEqual(mount_under_test.get_sensor(0).current_position()[2],\
-            rotated_location[2], 6)
+            resultant_location[2], 6)
 
     def testMoveAndRotateMountWithMultipleSensors(self):
         """
@@ -178,21 +178,21 @@ class SensorMountTests(unittest.TestCase):
         attached_sensor.append(LightSensor((70.710678119, -70.710678119, 0), (), ()))
 
         mount_location = (2, 5, 7)
-        rotated_location = []
+        resultant_location = []
         """
         Since we are rotating by 45 degress, each sensor should be rotated to the
         position of the previous one before being translated.
         For example: the second element will end up being rotated to (100, 0, 0)
         then translated by the mount_location (2, 5, 7) to become (102, 5, 7)
         """
-        rotated_location.append((72.710678119, -65.710678119, 7))
-        rotated_location.append((102, 5, 7))
-        rotated_location.append((72.710678119, 75.710678119, 7))
-        rotated_location.append((2, 105, 7))
-        rotated_location.append((-68.710678119, 75.710678119, 7))
-        rotated_location.append((-98, 5, 7))
-        rotated_location.append((-68.710678119, -65.710678119, 7))
-        rotated_location.append((72.710678119, -65.710678119, 7))
+        resultant_location.append((72.710678119, -65.710678119, 7))
+        resultant_location.append((102, 5, 7))
+        resultant_location.append((72.710678119, 75.710678119, 7))
+        resultant_location.append((2, 105, 7))
+        resultant_location.append((-68.710678119, 75.710678119, 7))
+        resultant_location.append((-98, 5, 7))
+        resultant_location.append((-68.710678119, -65.710678119, 7))
+        resultant_location.append((72.710678119, -65.710678119, 7))
 
         mount_under_test.add_new_sensor(attached_sensor[0])
         mount_under_test.add_new_sensor(attached_sensor[1])
@@ -206,11 +206,11 @@ class SensorMountTests(unittest.TestCase):
         mount_under_test.move_to_position(mount_location, 45)
         for i in range(0, 7):
             self.assertAlmostEqual(mount_under_test.get_sensor(i).current_position()[0],\
-                rotated_location[i][0], 6)
+                resultant_location[i][0], 6)
             self.assertAlmostEqual(mount_under_test.get_sensor(i).current_position()[1],\
-                rotated_location[i][1], 6)
+                resultant_location[i][1], 6)
             self.assertAlmostEqual(mount_under_test.get_sensor(i).current_position()[2],\
-                rotated_location[i][2], 6)
+                resultant_location[i][2], 6)
 
 if __name__ == "__main__":
     unittest.main()
