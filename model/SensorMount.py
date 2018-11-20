@@ -72,10 +72,9 @@ class SensorMount(object):
             self.sensor_list[index] = sensor
 
         self.location = location
-    
+
     def get_sensor(self, sensor_index):
         return self.sensor_list[sensor_index]
-    
 
     def current_position(self):
         """

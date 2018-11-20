@@ -58,7 +58,7 @@ def run_model():
         cart.add_new_sensor(sensor)
 
     # Move the mount to somewhere away from just below the light
-    cart.move_to_position((0, 100, 0), 0)
+    cart.move_to_position((60, 0, 0), 0)
 
 
     #Initialize DirectionFinder to be evaluated
@@ -66,7 +66,7 @@ def run_model():
 
     # Keep iterating on getting the next direction and moving until we either
     # stabilize or we have tried more than the maximum specified times
-    for iteration in range(1, 100):
+    for iteration in range(1, 25):
         # Get all the sensor location and outputs to feed into the DF
         current_sensor_data = []
         cart_location = cart.current_position()
@@ -80,8 +80,6 @@ def run_model():
             relative_sensor_location =  (global_sensor_location[0] - cart_location[0], \
                 global_sensor_location[1] - cart_location[1], \
                 cart_location[2])
-            print(str(sensor_index) + ": relative sensor location " + str(relative_sensor_location))
-            print("   Sensor location: " + str(global_sensor_location))
             sensor_element = { 'amp':measured_light, 'location':relative_sensor_location }
             current_sensor_data.append(sensor_element)
 
@@ -89,17 +87,26 @@ def run_model():
         current_sensor_data.clear()
         print("Next Move: " + str(next_move))
 
-        # Figure out rotation and translation
+        # Calculate the translation the move represents
         next_translation = ( cart_location[0] + next_move[0], \
             cart_location[1] + next_move[1], \
             10)
-        next_rotation = 0
+        # The SensorMount doesn't have a defined front so by convention we'll
+        # say that the first sensor attached to it represents the front.
+        current_cart_front = cart.get_sensor(0).current_position()
+        current_cart_angle = math.atan2(current_cart_front[1], current_cart_front[2])
+        final_cart_angle = math.atan2(next_move[1], next_move[0])
+        next_rotation = round(final_cart_angle - current_cart_angle, 2)
+
         cart.move_to_position(next_translation, next_rotation)
 
         print(str(iteration) + ": Cart Location: " + str(cart.current_position()))
-        if cart.current_position() == (0, 0, 10):
+        if next_move == (0, 0):
             print("Reached ideal spot in " + str(iteration) + " iterations")
             return
+
+        print("   Current Error: " + str(math.sqrt(math.pow(next_translation[0], 2) \
+            + math.pow(next_translation[1], 2))))
 
 
 if __name__ == "__main__":
