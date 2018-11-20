@@ -58,7 +58,7 @@ def run_model():
         cart.add_new_sensor(sensor)
 
     # Move the mount to somewhere away from just below the light
-    cart.move_to_position((0, -100, 0), 0)
+    cart.move_to_position((0, 100, 0), 0)
 
 
     #Initialize DirectionFinder to be evaluated
@@ -66,7 +66,7 @@ def run_model():
 
     # Keep iterating on getting the next direction and moving until we either
     # stabilize or we have tried more than the maximum specified times
-    for iteration in range(0, 100):
+    for iteration in range(1, 100):
         # Get all the sensor location and outputs to feed into the DF
         current_sensor_data = []
         cart_location = cart.current_position()
@@ -78,18 +78,21 @@ def run_model():
             incident_light = source.get_intensity_at_location(global_sensor_location)
             measured_light = current_sensor.output_from_sources(incident_light)
             relative_sensor_location =  (global_sensor_location[0] - cart_location[0], \
-                global_sensor_location[1] - cart_location[1])
+                global_sensor_location[1] - cart_location[1], \
+                cart_location[2])
             print(str(sensor_index) + ": relative sensor location " + str(relative_sensor_location))
             print("   Sensor location: " + str(global_sensor_location))
-            sensor_element = { 'amp':measured_light, 'location': relative_sensor_location }
+            sensor_element = { 'amp':measured_light, 'location':relative_sensor_location }
             current_sensor_data.append(sensor_element)
 
         next_move = direction_finder.FindDirection(current_sensor_data)
+        current_sensor_data.clear()
         print("Next Move: " + str(next_move))
 
         # Figure out rotation and translation
         next_translation = ( cart_location[0] + next_move[0], \
-            cart_location[1] + next_move[1], 10)
+            cart_location[1] + next_move[1], \
+            10)
         next_rotation = 0
         cart.move_to_position(next_translation, next_rotation)
 
