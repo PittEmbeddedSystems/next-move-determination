@@ -54,12 +54,12 @@ class SensorMount(object):
             rotated_z = relative_z
 
             # Translate back to absolute coordinates
-            rotated_position = (rotated_x, rotated_y, rotated_z) + self.location
+            rotated_position = (rotated_x + self.location[0], \
+                rotated_y + self.location[1], \
+                    rotated_z + self.location[2] )
 
             # The translation is the difference in the coordinates between
             # the initial and final position.
-
-
             new_x = rotated_position[0] \
                 + (location[0] - self.location[0])
             new_y = rotated_position[1] \
@@ -72,10 +72,9 @@ class SensorMount(object):
             self.sensor_list[index] = sensor
 
         self.location = location
-    
+
     def get_sensor(self, sensor_index):
         return self.sensor_list[sensor_index]
-    
 
     def current_position(self):
         """

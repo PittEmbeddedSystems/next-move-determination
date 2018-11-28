@@ -37,7 +37,7 @@ class LightSensor(object):
         """
         Determine an output based on the specified input
         """
-        return (incident_light - self.input_range[0]) \
+        return int(round((incident_light - self.input_range[0]) \
           * (self.output_range[1] - self.output_range[0]) \
           / (self.input_range[1] - self.input_range[0]) \
-          + self.output_range[0]
+          + self.output_range[0]))
