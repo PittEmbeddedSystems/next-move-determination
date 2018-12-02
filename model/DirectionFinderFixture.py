@@ -3,6 +3,8 @@
 Software fixture for the DirectionFinder object to evaluate how effective its
 strategy is at moving to the area of the highest light
 """
+
+import csv
 import math
 
 from LightSource import LightSource
@@ -102,6 +104,12 @@ def run_model():
             cart_location[1] + scaled_move[1], \
             0)
 
+        # Create a csv file to hold the data generated
+        with open('DirectionFinderResults.csv', mode='a') as df_results:
+            df_results = csv.writer(df_results, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            df_results.writerow([cart.current_position()[0], cart.current_position()[1],scaled_move[0],
+                                 scaled_move[1], math.sqrt(math.pow(next_translation[0], 2) +
+                                                           math.pow(next_translation[1], 2))])
 
         # The SensorMount doesn't have a defined front so by convention we'll
         # say that the first sensor attached to it represents the front.
