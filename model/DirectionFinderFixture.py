@@ -70,6 +70,7 @@ def run_model():
         # Get all the sensor location and outputs to feed into the DF
         current_sensor_data = []
         cart_location = cart.current_position()
+        print(str(iteration) + ": Cart Location: " + str(cart_location))
 
         for sensor_index in range(0, 7):
             current_sensor = cart.get_sensor(sensor_index)
@@ -84,13 +85,24 @@ def run_model():
             current_sensor_data.append(sensor_element)
 
         next_move = direction_finder.FindDirection(current_sensor_data)
+        print("Next Move: {} ".format(next_move))
         current_sensor_data.clear()
-        print("Next Move: " + str(next_move))
+
+        # We only want to move 5 cm in that direction, so figure out that point
+        move_vector = [next_move[0] - cart_location[0], next_move[1]  - cart_location[1]]
+        orig_magnitude = math.sqrt(math.pow(move_vector[0], 2) + math.pow(move_vector[1], 2))
+        scaled_move = [0, 0]
+        if orig_magnitude != 0.0:
+            scaled_move = [ 5 * ( move_vector[0]) / orig_magnitude, 5 * (move_vector[1]) / orig_magnitude ]
+
+        print("Scaled Move: {}".format(scaled_move))
 
         # Calculate the translation the move represents
-        next_translation = ( cart_location[0] + next_move[0], \
-            cart_location[1] + next_move[1], \
-            10)
+        next_translation = ( cart_location[0] + scaled_move[0], \
+            cart_location[1] + scaled_move[1], \
+            0)
+
+
         # The SensorMount doesn't have a defined front so by convention we'll
         # say that the first sensor attached to it represents the front.
         current_cart_front = cart.get_sensor(0).current_position()
@@ -100,8 +112,7 @@ def run_model():
 
         cart.move_to_position(next_translation, next_rotation)
 
-        print(str(iteration) + ": Cart Location: " + str(cart.current_position()))
-        if next_move == (0, 0):
+        if scaled_move == [0, 0]:
             print("Reached ideal spot in " + str(iteration) + " iterations")
             return
 
