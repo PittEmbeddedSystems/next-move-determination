@@ -16,9 +16,9 @@ class DirectionFinderTests(unittest.TestCase):
         sensorData.append({'amp':128, 'location': (6,6)})
         sensorData.append({'amp':128, 'location': (7,7)})
         sensorData.append({'amp':128, 'location': (8,8)})
-        testDF = DirectionFinder
+        testDF = DirectionFinder()
         direction = testDF.FindDirection(sensorData)
-        
+
         self.assertEqual(direction, (0,0))
 
     def testTwoIndependentMaxes(self):
@@ -31,7 +31,7 @@ class DirectionFinderTests(unittest.TestCase):
         sensorData.append({'amp': 256, 'location': (6, 6)})
         sensorData.append({'amp': 128, 'location': (7, 7)})
         sensorData.append({'amp': 128, 'location': (8, 8)})
-        testDF = DirectionFinder
+        testDF = DirectionFinder()
         direction = testDF.FindDirection(sensorData)
 
         self.assertEqual(direction, (1, 1))
@@ -47,7 +47,7 @@ class DirectionFinderTests(unittest.TestCase):
         sensorData.append({'amp': 128, 'location': (6, 6)})
         sensorData.append({'amp': 128, 'location': (7, 7)})
         sensorData.append({'amp': 128, 'location': (8, 8)})
-        testDF = DirectionFinder
+        testDF = DirectionFinder()
         direction = testDF.FindDirection(sensorData)
 
         self.assertEqual(direction, (4, 4))
@@ -62,7 +62,7 @@ class DirectionFinderTests(unittest.TestCase):
         sensorData.append({'amp': 0, 'location': (6, 6)})
         sensorData.append({'amp': 0, 'location': (7, 7)})
         sensorData.append({'amp': 0, 'location': (8, 8)})
-        testDF = DirectionFinder
+        testDF = DirectionFinder()
         direction = testDF.FindDirection(sensorData)
 
         self.assertEqual(direction, (0, 0))
@@ -77,7 +77,7 @@ class DirectionFinderTests(unittest.TestCase):
         sensorData.append({'amp': 128, 'location': (6, 6)})
         sensorData.append({'amp': 128, 'location': (7, 7)})
         sensorData.append({'amp': 128, 'location': (8, 8)})
-        testDF = DirectionFinder
+        testDF = DirectionFinder()
         direction = testDF.FindDirection(sensorData)
 
         self.assertEqual(direction, ())
@@ -92,7 +92,7 @@ class DirectionFinderTests(unittest.TestCase):
         sensorData.append({'amp': 128, 'location': (5, 5)})
         sensorData.append({'amp': 128, 'location': (6, 6)})
         sensorData.append({'amp': 128, 'location': (7, 7)})
-        testDF = DirectionFinder
+        testDF = DirectionFinder()
         direction = testDF.FindDirection(sensorData)
 
         self.assertEqual(direction, (0, 0))
